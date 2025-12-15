@@ -9,7 +9,7 @@ public partial class Termekek
 
     public string? Etel { get; set; }
 
-    public int? Ar { get; set; }
+    public int? Arak { get; set; }
 
     public virtual ICollection<Kapcsolo> Kapcsolos { get; set; } = new List<Kapcsolo>();
 }

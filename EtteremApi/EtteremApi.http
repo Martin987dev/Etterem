@@ -1,4 +1,4 @@
-@EtteremApi_HostAddress = http://localhost:5109
+@EtteremApi_HostAddress = http://localhost:5248
 
 GET {{EtteremApi_HostAddress}}/weatherforecast/
 Accept: application/json

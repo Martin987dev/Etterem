@@ -11,7 +11,7 @@ public partial class Kapcsolo
 
     public int TermekekId { get; set; }
 
-    public virtual Renddele Rendeles { get; set; } = null!;
+    public virtual Rendeles Rendeles { get; set; } = null!;
 
     public virtual Termekek Termekek { get; set; } = null!;
 }

@@ -4,26 +4,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EtteremApi.Models;
 
-public partial class EtelekContext : DbContext
+public partial class RestaurantContext : DbContext
 {
-    public EtelekContext()
+    public RestaurantContext()
     {
     }
 
-    public EtelekContext(DbContextOptions<EtelekContext> options)
+    public RestaurantContext(DbContextOptions<RestaurantContext> options)
         : base(options)
     {
     }
 
     public virtual DbSet<Kapcsolo> Kapcsolos { get; set; }
 
-    public virtual DbSet<Renddele> Renddeles { get; set; }
+    public virtual DbSet<Rendeles> Rendeles { get; set; }
 
     public virtual DbSet<Termekek> Termekeks { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("server=localhost;database=etelek;user=root;password=;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,19 +39,19 @@ public partial class EtelekContext : DbContext
 
             entity.HasOne(d => d.Rendeles).WithMany(p => p.Kapcsolos)
                 .HasForeignKey(d => d.RendelesId)
-                .HasConstraintName("kapcsolo_ibfk_2");
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("kapcsolo_ibfk_1");
 
             entity.HasOne(d => d.Termekek).WithMany(p => p.Kapcsolos)
                 .HasForeignKey(d => d.TermekekId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("kapcsolo_ibfk_1");
+                .HasConstraintName("kapcsolo_ibfk_2");
         });
 
-        modelBuilder.Entity<Renddele>(entity =>
+        modelBuilder.Entity<Rendeles>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("renddeles");
+            entity.ToTable("rendeles");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Asztalszam)
@@ -73,9 +69,9 @@ public partial class EtelekContext : DbContext
             entity.ToTable("termekek");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
-            entity.Property(e => e.Ar)
+            entity.Property(e => e.Arak)
                 .HasDefaultValueSql("'NULL'")
-                .HasColumnType("int(11)");
+                .HasColumnType("int(25)");
             entity.Property(e => e.Etel)
                 .HasMaxLength(255)
                 .HasDefaultValueSql("'NULL'");
